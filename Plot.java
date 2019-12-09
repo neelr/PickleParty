@@ -112,8 +112,7 @@ public class Plot  extends Equipment  {
 	
 	
 	public void clicked() throws FileNotFoundException {
-		
-		System.out.println("Clicked");
+	
 		
 		if (canPlant) {
 			
