@@ -19,8 +19,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.layout.BorderPane;
@@ -34,7 +38,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-
 public class pictureTest extends Application{
 	
 	ArrayList <Plot> plots = new ArrayList<Plot>();
@@ -42,9 +45,7 @@ public class pictureTest extends Application{
 	
 	ArrayList <Jar> jars = new ArrayList<Jar>();
 	ObservableList<Jar> jarsss = FXCollections.observableList(jars);
-	
-	
-
+		
 	public void start(Stage stage) throws MalformedURLException, UnsupportedAudioFileException, IOException, LineUnavailableException {
 			
 		Pane mainPane = new Pane();
@@ -59,38 +60,63 @@ public class pictureTest extends Application{
 		pane.setBottom(buttonPane);
 		
 		Scene mainScene = new Scene(pane, 800, 500);
-		
-		
+				
 		Button backButton = new Button("Back");
-		backButton.setAlignment(Pos.BOTTOM_LEFT);
-		
+		backButton.setAlignment(Pos.BOTTOM_LEFT);		
 		Pane shopButtonPane = new Pane();
 		shopButtonPane.getChildren().add(backButton);
 		
-		BorderPane shopPane = new BorderPane();
-				
-		shopPane.setBottom(shopButtonPane);
+		BorderPane shopPane = new BorderPane();				
+		shopPane.setBottom(shopButtonPane);	
 		
 		Scene shopScene = new Scene(shopPane, 800, 500);
 		
 		Button guestBt = new Button("Play as guest");
 		Button signInBt = new Button("Sign in");
 		Button newAccountBt = new Button("Create a new account");
-		Button creditsBt = new Button("Credits");
-		
 		
 		VBox menuButtonPane = new VBox(10);
 		menuButtonPane.setAlignment(Pos.CENTER);
+		menuButtonPane.getChildren().addAll(signInBt, guestBt, newAccountBt);
 		
-		menuButtonPane.getChildren().addAll(signInBt, guestBt, newAccountBt, creditsBt);
+		Button creditsBt = new Button("Credits");
+		Pane menuBottomPane = new Pane();
+		menuBottomPane.getChildren().add(creditsBt);
 		
 		BorderPane menuPane = new BorderPane();
 		menuPane.setCenter(menuButtonPane);
+		menuPane.setBottom(menuBottomPane);
 		
 		Scene menuScene = new Scene(menuPane, 400, 500);
 		
+		Text creditsText = new Text(50, 200, "Ryan Ramsay:   Did the JavaFX programming\nand more! \n\nNeel Redcar:  ....did something...maybe?");
+		creditsText.setFont(Font.font("Times New Roman", 17));
+		Text creditsTitleText = new Text(130, 100, "Credits");
+		creditsTitleText.setFont(Font.font("Times New Roman", FontWeight.BOLD, 40));
+		Pane creditsTextPane = new Pane();
+		creditsTextPane.getChildren().addAll(creditsText, creditsTitleText);
 		
+		Button creditsBackBt = new Button("Back");
+		Pane creditsBtPane = new Pane();
+		creditsBtPane.getChildren().add(creditsBackBt);
+		
+		BorderPane creditsPane = new BorderPane();	
+		creditsPane.setCenter(creditsTextPane);
+		creditsPane.setBottom(creditsBtPane);
 
+		Scene creditsScene = new Scene(creditsPane, 400, 500);
+		
+		
+		
+		Pane signInPane = new Pane();
+		
+		Scene signInScene = new Scene(signInPane, 400, 500);
+		
+		Pane newAccountPane = new Pane();
+		
+		Scene newAccountScene = new Scene(newAccountPane, 400, 500);
+		
+		
 		EventHandler <MouseEvent> eventHandler = new EventHandler <MouseEvent> () {
 			@Override
 			public void handle(MouseEvent e)  {
@@ -111,6 +137,7 @@ public class pictureTest extends Application{
                         try {
                         	Arc arc = new Arc(50, 50, 40, 40, 0, 0);
                         	arc.setType(ArcType.ROUND);
+                        	arc.setFill(Color.rgb(255, 0, 0, 0.5));
                         	mainPane.getChildren().add(arc);
                         	jarsss.get(i).clicked(arc);
 						} catch (FileNotFoundException e1) {
@@ -120,26 +147,26 @@ public class pictureTest extends Application{
                     }
 				}
 			}
-			
 		};
 		
 		mainScene.addEventFilter(MouseEvent.MOUSE_CLICKED,  eventHandler);
-		
-		
-		newPlot(7, mainPane);
-		
-		newJar(1, mainPane);
-		
 				
+		newPlot(4, mainPane);
+		
+		newJar(4, mainPane);
+						
 		bt1.setOnAction(e -> {stage.setScene(shopScene); } );
 		backButton.setOnAction(e -> {stage.setScene(mainScene); } );
 		guestBt.setOnAction(e -> {stage.setScene(mainScene); } );
+		creditsBt.setOnAction(e -> {stage.setScene(creditsScene); } );
+		creditsBackBt.setOnAction(e -> {stage.setScene(menuScene); } );
+		signInBt.setOnAction(e -> {stage.setScene(signInScene); } );
+		newAccountBt.setOnAction(e -> {stage.setScene(newAccountScene); } );
 		
 		stage.setScene(menuScene);
 		
 		stage.show();
-		
-			
+					
 		playMusic();
 		
 		EventHandler<ActionEvent> musicEventHandler = e -> {
@@ -154,8 +181,7 @@ public class pictureTest extends Application{
 		Timeline animation = new Timeline(new KeyFrame(Duration.seconds(44), musicEventHandler));
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.play();
-	}
-	
+	}	
 	
 	public static void main(String[] args)  {
 		
@@ -163,8 +189,7 @@ public class pictureTest extends Application{
 		launch(args);
 		
 	}
-	
-	
+		
 	public static ImageView changePlot(ImageView pic, int stage) throws FileNotFoundException {
 		
 		stage ++;
@@ -174,10 +199,9 @@ public class pictureTest extends Application{
 		pic = new ImageView(image1);		
 		
 		return pic;	
-	}
+	}	
 	
-	
-	public void newPlot(int num, Pane pane) throws FileNotFoundException {
+public void newPlot(int num, Pane pane) throws FileNotFoundException {
 		
 		Image image1 = new Image(new FileInputStream("plot1.png"));
 		int x = 50;
