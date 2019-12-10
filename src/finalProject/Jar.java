@@ -31,10 +31,9 @@ public class Jar extends Equipment {
 	
 	public void clicked(Arc arc) throws FileNotFoundException {
 		
-		System.out.println("Clicked");
-		
-		if (canPickle) {
-			
+		System.out.println("Clicked Jar: "+Mechanics.cucumber);
+		if (canPickle && Mechanics.cucumber != 0) {
+			Mechanics.pickle();
 			canPickle = false;
 			pickle(arc);
 		}
@@ -87,7 +86,7 @@ public class Jar extends Equipment {
 	public void collect() throws FileNotFoundException {
 		
 		System.out.println("Tried to collect");
-	
+		Mechanics.redeem(true);
 		Image image1 = new Image(new FileInputStream("jar.jpg"));
 		
 		this.imageView.setImage(image1);

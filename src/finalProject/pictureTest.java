@@ -126,15 +126,9 @@ public class pictureTest extends Application{
 		mainScene.addEventFilter(MouseEvent.MOUSE_CLICKED,  eventHandler);
 		
 		
-		newPlot(1, mainPane);
-		newPlot(2, mainPane);
-		newPlot(3, mainPane);
-		newPlot(4, mainPane);
+		newPlot(7, mainPane);
 		
 		newJar(1, mainPane);
-		newJar(2, mainPane);
-		newJar(3, mainPane);
-		newJar(4, mainPane);
 		
 				
 		bt1.setOnAction(e -> {stage.setScene(shopScene); } );
@@ -183,61 +177,51 @@ public class pictureTest extends Application{
 	}
 	
 	
-	public void newPlot(int slot, Pane pane) throws FileNotFoundException {
+	public void newPlot(int num, Pane pane) throws FileNotFoundException {
 		
 		Image image1 = new Image(new FileInputStream("plot1.png"));
-	
-		
-		if (slot == 1) {
-			
-			Plot plot = new Plot(pane, image1, 50, 150);
+		int x = 50;
+		int y = 150;
+		boolean switcher = false;
+		for (int i = 0; i < num; i++) {
+			Plot plot = new Plot(pane, image1, x, y);
 			plots.add(plot);
-		}
-		else if (slot == 2) {
-			
-			Plot plot = new Plot(pane, image1, 180, 150);
-			plots.add(plot);
-		}
-		else if (slot == 3) {
-			
-			Plot plot = new Plot(pane, image1, 50, 280);
-			plots.add(plot);
-		}
-		else if (slot == 4) {
-			
-			Plot plot = new Plot(pane, image1, 180, 280);
-			plots.add(plot);
+			if (x == 50) {
+				x = 180;
+			} else {
+				x = 50;
+			}
+			if (switcher) {
+				y+=130;
+				switcher = false;
+			} else {
+				switcher = true;
+			}
 		}
 	}
 	
 	
-	public void newJar(int slot, Pane pane) throws FileNotFoundException {
+	public void newJar(int num, Pane pane) throws FileNotFoundException {
 		
 		Image image1 = new Image(new FileInputStream("jar.jpg"));
 	
-		
-		if (slot == 1) {
-			
-			Jar jar = new Jar(pane, image1, 450, 150);
+		int x = 450;
+		int y = 150;
+		boolean switcher = false;
+		for (int i = 0; i < num; i++) {
+			Jar jar = new Jar(pane, image1, x, y);
 			jars.add(jar);
-		}
-		
-		else if (slot == 2) {
-			
-			Jar jar = new Jar(pane, image1, 570, 150);
-			jars.add(jar);
-		}
-		
-		else if (slot == 3) {
-			
-			Jar jar = new Jar(pane, image1, 450, 280);
-			jars.add(jar);
-		}
-		
-		else if (slot == 4) {
-			
-			Jar jar = new Jar(pane, image1, 570, 280);
-			jars.add(jar);
+			if (x == 450) {
+				x = 570;
+			} else {
+				x = 450;
+			}
+			if (switcher) {
+				y+=130;
+				switcher = false;
+			} else {
+				switcher = true;
+			}
 		}
 	}
 	

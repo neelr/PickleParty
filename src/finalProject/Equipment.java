@@ -24,7 +24,7 @@ public abstract class Equipment {
 		this.y = y;
 		
 		this.imageView = new ImageView(image);
-		this.imageView.relocate(x,  y);;
+		this.imageView.relocate(x,  y);
 		
 		addToLayer();
 		

@@ -51,23 +51,18 @@ public class Plot  extends Equipment  {
 				
 				if (count == 0) {
 					
-					this.imageView.setImage(image2);
-				}
-				
-				else if (count == 1) {
-					
 					this.imageView.setImage(image3);
 				}
-				else if (count == 2) {
+				else if (count == 1) {
 					
 					this.imageView.setImage(image4);
-					canHarvest = true;
+					canHarvest= true;
 				}
 				
 				count ++;
 			};
 			
-			
+			this.imageView.setImage(image2);
 			Timeline animation = new Timeline(new KeyFrame(Duration.seconds(15), eventHandler));
 			animation.setCycleCount(3);
 			animation.play();
@@ -92,11 +87,9 @@ public class Plot  extends Equipment  {
 		System.out.println("Tried to harvest");
 		
 		if (canHarvest) {
-			
+			Mechanics.add();
 			canHarvest = false;
 			canPlant = true;
-			
-			
 			this.imageView.setImage(image1);
 			
 			
@@ -115,14 +108,11 @@ public class Plot  extends Equipment  {
 	
 		
 		if (canPlant) {
-			
-			
 			plant();
 			
 		}
 		
 		else if(canHarvest) {
-			
 			harvest();
 		}
 		
