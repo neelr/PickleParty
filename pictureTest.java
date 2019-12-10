@@ -104,7 +104,18 @@ public class pictureTest extends Application{
 		creditsPane.setCenter(creditsTextPane);
 		creditsPane.setBottom(creditsBtPane);
 
-		Scene creditsScene = new Scene(creditsPane, 400, 400);
+		Scene creditsScene = new Scene(creditsPane, 400, 500);
+		
+		
+		
+		Pane signInPane = new Pane();
+		
+		Scene signInScene = new Scene(signInPane, 400, 500);
+		
+		Pane newAccountPane = new Pane();
+		
+		Scene newAccountScene = new Scene(newAccountPane, 400, 500);
+		
 		
 		EventHandler <MouseEvent> eventHandler = new EventHandler <MouseEvent> () {
 			@Override
@@ -155,6 +166,8 @@ public class pictureTest extends Application{
 		guestBt.setOnAction(e -> {stage.setScene(mainScene); } );
 		creditsBt.setOnAction(e -> {stage.setScene(creditsScene); } );
 		creditsBackBt.setOnAction(e -> {stage.setScene(menuScene); } );
+		signInBt.setOnAction(e -> {stage.setScene(signInScene); } );
+		newAccountBt.setOnAction(e -> {stage.setScene(newAccountScene); } );
 		
 		stage.setScene(menuScene);
 		
