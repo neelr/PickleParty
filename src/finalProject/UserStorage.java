@@ -16,16 +16,19 @@ public class UserStorage {
 		name = username;
 	}
 	void save () {
-		File saveData = new File(name);
-		PrintWriter output;
-		try {
-			output = new PrintWriter(saveData);
-			output.print(money+"\n"+jars+"\n"+plots+"\n"+pickles+"\n"+cucumber);
-			output.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (name != "Guest") {
+			File saveData = new File(name);
+			PrintWriter output;
+			try {
+				output = new PrintWriter(saveData);
+				output.print(money+"\n"+jars+"\n"+plots+"\n"+pickles+"\n"+cucumber);
+				output.close();
+			} catch (FileNotFoundException e) {
+			
+				e.printStackTrace();
+			}
 		}
+		
 	}
 	void load (String fileName) {
 		try {

@@ -42,7 +42,6 @@ public class Plot  extends Equipment  {
 			
 			canPlant = false;
 			
-			//start grow cycle
 			count = 0;
 			
 			EventHandler<ActionEvent> eventHandler = e -> {
@@ -61,7 +60,7 @@ public class Plot  extends Equipment  {
 			};
 			
 			this.imageView.setImage(image2);
-			Timeline animation = new Timeline(new KeyFrame(Duration.seconds(1), eventHandler));
+			Timeline animation = new Timeline(new KeyFrame(Duration.seconds(10), eventHandler));
 			animation.setCycleCount(3);
 			animation.play();
 			
@@ -99,7 +98,6 @@ public class Plot  extends Equipment  {
 		}
 		
 	}
-	
 	
 	
 	public void clicked(Counter one, Counter two, Counter three, Counter four) throws FileNotFoundException {

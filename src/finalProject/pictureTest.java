@@ -25,6 +25,7 @@ import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.layout.BorderPane;
@@ -39,6 +40,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+//This is the control class
 public class pictureTest extends Application{
 	
 	static ArrayList <Plot> plots = new ArrayList<Plot>();
@@ -66,7 +68,7 @@ public class pictureTest extends Application{
 		pane.setCenter(mainPane);
 		pane.setBottom(buttonPane);
 		
-		Scene mainScene = new Scene(pane, 800, 500);
+		Scene mainScene = new Scene(pane, 800, 800);
 				
 		Button backButton = new Button("Back");
 		backButton.setAlignment(Pos.BOTTOM_LEFT);		
@@ -78,13 +80,20 @@ public class pictureTest extends Application{
 		shopPane.setCenter(buttonStorePane);
 		Scene shopScene = new Scene(shopPane, 800, 500);
 		
+		Text titleText = new Text(20, 80, "PICKLE FARMING\nSIMULATOR");
+		titleText.setFont(Font.font("Times New Roman", FontWeight.BOLD, 40));
+		titleText.setTextAlignment(TextAlignment.CENTER);
+		titleText.setFill(Color.GREEN);
+		
+		Pane titlePane = new Pane();
+		titlePane.getChildren().add(titleText);
+		
 		Button guestBt = new Button("Play as guest");
 		Button signInBt = new Button("Sign in");
-		Button newAccountBt = new Button("Create a new account");
 		
 		VBox menuButtonPane = new VBox(10);
 		menuButtonPane.setAlignment(Pos.CENTER);
-		menuButtonPane.getChildren().addAll(signInBt, guestBt, newAccountBt);
+		menuButtonPane.getChildren().addAll(signInBt, guestBt);
 		
 		Button creditsBt = new Button("Credits");
 		Pane menuBottomPane = new Pane();
@@ -93,10 +102,11 @@ public class pictureTest extends Application{
 		BorderPane menuPane = new BorderPane();
 		menuPane.setCenter(menuButtonPane);
 		menuPane.setBottom(menuBottomPane);
+		menuPane.setTop(titlePane);
 		
 		Scene menuScene = new Scene(menuPane, 400, 500);
 		
-		Text creditsText = new Text(50, 200, "Ryan Ramsay:   Did the JavaFX programming\nand more! \n\nNeel Redcar:  ....did something...maybe?");
+		Text creditsText = new Text(50, 200, "Ryan Ramsay:   Did the JavaFX programming \n\nNeel Redcar:   Did the mechanics");
 		creditsText.setFont(Font.font("Times New Roman", 17));
 		Text creditsTitleText = new Text(130, 100, "Credits");
 		creditsTitleText.setFont(Font.font("Times New Roman", FontWeight.BOLD, 40));
@@ -125,14 +135,11 @@ public class pictureTest extends Application{
 		
 		Scene signInScene = new Scene(signInPane, 400, 500);
 		
-		Pane newAccountPane = new Pane();
-		
-		Scene newAccountScene = new Scene(newAccountPane, 400, 500);
-		
 		Image image1 = new Image(new FileInputStream("coin.jpg"));
 		Image image2 = new Image(new FileInputStream("cucumber.jpg"));
 		Image image3 = new Image(new FileInputStream("pickle.png"));
 		
+		//One set of counters for the main pane and the other set for the shop pane
 		Counter coins = new Counter(mainPane, image1, 10, 20);
 		Counter cucumbers = new Counter(mainPane, image2, 140, 20);
 		Counter pickles = new Counter(mainPane, image3, 270, 20);		
@@ -191,20 +198,21 @@ public class pictureTest extends Application{
 		
 		bt1.setOnAction(e -> {stage.setScene(shopScene); } );
 		backButton.setOnAction(e -> {stage.setScene(mainScene); } );
-		guestBt.setOnAction(e -> {stage.setScene(mainScene);
+		guestBt.setOnAction(e -> {stage.setScene(mainScene); 
 		coins.changeAmount(100);
 		coins2.changeAmount(100);
+		UserStorage person = new UserStorage("Guest");
+		Mechanics.setUser(person);
 		try {
 			newPlot(Mechanics.plots, mainPane);
 			newJar(Mechanics.jars, mainPane);
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
+			
 			e1.printStackTrace();
 		}} );
 		creditsBt.setOnAction(e -> {stage.setScene(creditsScene); } );
 		creditsBackBt.setOnAction(e -> {stage.setScene(menuScene); } );
 		signInBt.setOnAction(e -> {stage.setScene(signInScene); } );
-		newAccountBt.setOnAction(e -> {stage.setScene(newAccountScene); } );
 		butJar.setOnAction(e -> {
 			if (Mechanics.money >= 100) {
 				Mechanics.addJar();
@@ -233,12 +241,12 @@ public class pictureTest extends Application{
 		});
 		butSell.setOnAction(e -> {
 			System.out.print("HERE: "+Mechanics.pickles);
-			if (Mechanics.pickles >= 50) {
-				Mechanics.sell(-50);
-				coins.changeAmount(50);
-				coins2.changeAmount(50);
-				pickles.changeAmount(-50);
-				pickles2.changeAmount(-50);
+			if (Mechanics.pickles >= 100) {
+				Mechanics.sell(-100);
+				coins.changeAmount(100);
+				coins2.changeAmount(100);
+				pickles.changeAmount(-100);
+				pickles2.changeAmount(-100);
 				Mechanics.money(100);
 			}
 		});
@@ -265,7 +273,7 @@ public class pictureTest extends Application{
 		
 		stage.show();
 					
-		//playMusic();
+		playMusic();
 		
 		EventHandler<ActionEvent> musicEventHandler = e -> {
 			
@@ -353,9 +361,8 @@ public class pictureTest extends Application{
 		File file = new File("pickleSong_aud.wav");
         URL url = null;
         if (file.canRead()) {url = file.toURI().toURL();}
-        System.out.println(url);
         AudioClip clip = Applet.newAudioClip(url);
         clip.play();
-        System.out.println("should've played by now");
+       
 	}
 }
