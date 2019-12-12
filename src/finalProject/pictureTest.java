@@ -29,6 +29,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -40,11 +41,11 @@ import javafx.collections.ObservableList;
 
 public class pictureTest extends Application{
 	
-	ArrayList <Plot> plots = new ArrayList<Plot>();
-	ObservableList<Plot> plotsss = FXCollections.observableList(plots);
+	static ArrayList <Plot> plots = new ArrayList<Plot>();
+	static ObservableList<Plot> plotsss = FXCollections.observableList(plots);
 	
-	ArrayList <Jar> jars = new ArrayList<Jar>();
-	ObservableList<Jar> jarsss = FXCollections.observableList(jars);
+	static ArrayList <Jar> jars = new ArrayList<Jar>();
+	static ObservableList<Jar> jarsss = FXCollections.observableList(jars);
 	
 	
 		
@@ -53,10 +54,14 @@ public class pictureTest extends Application{
 		Pane mainPane = new Pane();
 		
 		Button bt1 = new Button("Shop");
-			
+		Button buyPlot = new Button("Buy Plot");
+		Button butJar = new Button("Buy Jar");
+		Button butSell = new Button("Sell!");
 		Pane buttonPane = new Pane();
 		buttonPane.getChildren().add(bt1);
-		
+		VBox buttonStorePane = new VBox(10);
+		buttonStorePane.setAlignment(Pos.CENTER);
+		buttonStorePane.getChildren().addAll(buyPlot,butJar,butSell);
 		BorderPane pane = new BorderPane();
 		pane.setCenter(mainPane);
 		pane.setBottom(buttonPane);
@@ -68,9 +73,9 @@ public class pictureTest extends Application{
 		Pane shopButtonPane = new Pane();
 		shopButtonPane.getChildren().add(backButton);
 		
-		BorderPane shopPane = new BorderPane();				
-		shopPane.setBottom(shopButtonPane);	
-		
+		BorderPane shopPane = new BorderPane();	
+		shopPane.setBottom(shopButtonPane);
+		shopPane.setCenter(buttonStorePane);
 		Scene shopScene = new Scene(shopPane, 800, 500);
 		
 		Button guestBt = new Button("Play as guest");
@@ -109,8 +114,14 @@ public class pictureTest extends Application{
 		Scene creditsScene = new Scene(creditsPane, 400, 500);
 		
 		
-		
-		Pane signInPane = new Pane();
+		VBox signInCenter = new VBox(10);
+		signInCenter.setAlignment(Pos.CENTER);
+		Button signIn = new Button("Sign In");
+		TextField b = new TextField(); 
+		b.setMaxWidth(100);
+		signInCenter.getChildren().addAll(b,signIn);
+		BorderPane signInPane = new BorderPane();
+		signInPane.setCenter(signInCenter);
 		
 		Scene signInScene = new Scene(signInPane, 400, 500);
 		
@@ -129,9 +140,7 @@ public class pictureTest extends Application{
 		Counter coins2 = new Counter(shopPane, image1, 10, 20);
 		Counter cucumbers2 = new Counter(shopPane, image2, 140, 20);
 		Counter pickles2 = new Counter(shopPane, image3, 270, 20);
-		
-		coins.changeAmount(100);
-		coins2.changeAmount(100);
+	
 		
 		
 		
@@ -140,10 +149,10 @@ public class pictureTest extends Application{
 			@Override
 			public void handle(MouseEvent e)  {
 
-				for (int i = 0; i < plotsss.size(); i++) {
-					if (plotsss.get(i).contains(e.getX(), e.getY())) {
+				for (int i = 0; i < plots.size(); i++) {
+					if (plots.get(i).contains(e.getX(), e.getY())) {
                         try {
-							plotsss.get(i).clicked(coins, coins2, cucumbers, cucumbers2);
+							plots.get(i).clicked(coins, coins2, cucumbers, cucumbers2);
 							
 							
 						} catch (FileNotFoundException e1) {
@@ -153,14 +162,14 @@ public class pictureTest extends Application{
                     }
 				}
 				
-				for (int i = 0; i < jarsss.size(); i++) {
-					if (jarsss.get(i).contains(e.getX(), e.getY())) {
+				for (int i = 0; i < jars.size(); i++) {
+					if (jars.get(i).contains(e.getX(), e.getY())) {
                         try {
                         	Arc arc = new Arc(50, 50, 40, 40, 0, 0);
                         	arc.setType(ArcType.ROUND);
                         	arc.setFill(Color.rgb(255, 0, 0, 0.5));
                         	mainPane.getChildren().add(arc);
-                        	jarsss.get(i).clicked(arc, cucumbers, cucumbers2, pickles, pickles2);
+                        	jars.get(i).clicked(arc, cucumbers, cucumbers2, pickles, pickles2);
 						} catch (FileNotFoundException e1) {
 							
 							e1.printStackTrace();
@@ -177,23 +186,86 @@ public class pictureTest extends Application{
 		
 		
 				
-		newPlot(4, mainPane);
+
 		
-		newJar(4, mainPane);
-						
+		
 		bt1.setOnAction(e -> {stage.setScene(shopScene); } );
 		backButton.setOnAction(e -> {stage.setScene(mainScene); } );
-		guestBt.setOnAction(e -> {stage.setScene(mainScene); } );
+		guestBt.setOnAction(e -> {stage.setScene(mainScene);
+		coins.changeAmount(100);
+		coins2.changeAmount(100);
+		try {
+			newPlot(Mechanics.plots, mainPane);
+			newJar(Mechanics.jars, mainPane);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}} );
 		creditsBt.setOnAction(e -> {stage.setScene(creditsScene); } );
 		creditsBackBt.setOnAction(e -> {stage.setScene(menuScene); } );
 		signInBt.setOnAction(e -> {stage.setScene(signInScene); } );
 		newAccountBt.setOnAction(e -> {stage.setScene(newAccountScene); } );
-		
+		butJar.setOnAction(e -> {
+			if (Mechanics.money >= 100) {
+				Mechanics.addJar();
+				try {
+					newJar(Mechanics.jars, mainPane);
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
+				coins.changeAmount(-100);
+				coins2.changeAmount(-100);
+				Mechanics.money(-100);
+			}
+		});
+		buyPlot.setOnAction(e -> {
+			if (Mechanics.money >= 100) {
+				Mechanics.addPlot();
+				try {
+					newPlot(Mechanics.plots, mainPane);
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
+				coins.changeAmount(-100);
+				coins2.changeAmount(-100);
+				Mechanics.money(-100);
+			}
+		});
+		butSell.setOnAction(e -> {
+			System.out.print("HERE: "+Mechanics.pickles);
+			if (Mechanics.pickles >= 50) {
+				Mechanics.sell(-50);
+				coins.changeAmount(50);
+				coins2.changeAmount(50);
+				pickles.changeAmount(-50);
+				pickles2.changeAmount(-50);
+				Mechanics.money(100);
+			}
+		});
+		signIn.setOnAction(e -> {
+			UserStorage person = new UserStorage(b.getText());
+			person.load(b.getText());
+			Mechanics.setUser(person);
+			try {
+				newPlot(Mechanics.plots, mainPane);
+				newJar(Mechanics.jars, mainPane);
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			coins.changeAmount(Mechanics.money);
+			coins2.changeAmount(Mechanics.money);
+			pickles.changeAmount(Mechanics.pickles);
+			pickles2.changeAmount(Mechanics.pickles);
+			cucumbers.changeAmount(Mechanics.cucumber);
+			cucumbers2.changeAmount(Mechanics.cucumber);
+			stage.setScene(mainScene);
+		});
 		stage.setScene(menuScene);
 		
 		stage.show();
 					
-		playMusic();
+		//playMusic();
 		
 		EventHandler<ActionEvent> musicEventHandler = e -> {
 			

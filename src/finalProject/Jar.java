@@ -42,7 +42,6 @@ public class Jar extends Equipment {
 			cucumbers2.changeAmount(-100);		
 		}
 		else if (canCollect) {
-			
 			canCollect = false;
 			collect();
 			pickles.changeAmount(100);

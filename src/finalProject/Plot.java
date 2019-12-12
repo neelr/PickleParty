@@ -38,9 +38,7 @@ public class Plot  extends Equipment  {
 		Image image4 = new Image(new FileInputStream("plot4.png"));
 		
 		System.out.println("Tried to plant");
-		
 		if (canPlant) {
-		
 			
 			canPlant = false;
 			
@@ -63,7 +61,7 @@ public class Plot  extends Equipment  {
 			};
 			
 			this.imageView.setImage(image2);
-			Timeline animation = new Timeline(new KeyFrame(Duration.seconds(15), eventHandler));
+			Timeline animation = new Timeline(new KeyFrame(Duration.seconds(1), eventHandler));
 			animation.setCycleCount(3);
 			animation.play();
 			
@@ -107,10 +105,11 @@ public class Plot  extends Equipment  {
 	public void clicked(Counter one, Counter two, Counter three, Counter four) throws FileNotFoundException {
 	
 		
-		if (canPlant) {
+		if (canPlant && Mechanics.money >= 10) {
 			plant();
 			one.changeAmount(-10);
 			two.changeAmount(-10);
+			Mechanics.money(-10);
 		}
 		
 		else if(canHarvest) {
