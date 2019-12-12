@@ -45,6 +45,8 @@ public class pictureTest extends Application{
 	
 	ArrayList <Jar> jars = new ArrayList<Jar>();
 	ObservableList<Jar> jarsss = FXCollections.observableList(jars);
+	
+	
 		
 	public void start(Stage stage) throws MalformedURLException, UnsupportedAudioFileException, IOException, LineUnavailableException {
 			
@@ -116,6 +118,23 @@ public class pictureTest extends Application{
 		
 		Scene newAccountScene = new Scene(newAccountPane, 400, 500);
 		
+		Image image1 = new Image(new FileInputStream("coin.jpg"));
+		Image image2 = new Image(new FileInputStream("cucumber.jpg"));
+		Image image3 = new Image(new FileInputStream("pickle.png"));
+		
+		Counter coins = new Counter(mainPane, image1, 10, 20);
+		Counter cucumbers = new Counter(mainPane, image2, 140, 20);
+		Counter pickles = new Counter(mainPane, image3, 270, 20);		
+		
+		Counter coins2 = new Counter(shopPane, image1, 10, 20);
+		Counter cucumbers2 = new Counter(shopPane, image2, 140, 20);
+		Counter pickles2 = new Counter(shopPane, image3, 270, 20);
+		
+		coins.changeAmount(100);
+		coins2.changeAmount(100);
+		
+		
+		
 		
 		EventHandler <MouseEvent> eventHandler = new EventHandler <MouseEvent> () {
 			@Override
@@ -124,7 +143,9 @@ public class pictureTest extends Application{
 				for (int i = 0; i < plotsss.size(); i++) {
 					if (plotsss.get(i).contains(e.getX(), e.getY())) {
                         try {
-							plotsss.get(i).clicked();
+							plotsss.get(i).clicked(coins, coins2, cucumbers, cucumbers2);
+							
+							
 						} catch (FileNotFoundException e1) {
 							
 							e1.printStackTrace();
@@ -139,7 +160,7 @@ public class pictureTest extends Application{
                         	arc.setType(ArcType.ROUND);
                         	arc.setFill(Color.rgb(255, 0, 0, 0.5));
                         	mainPane.getChildren().add(arc);
-                        	jarsss.get(i).clicked(arc);
+                        	jarsss.get(i).clicked(arc, cucumbers, cucumbers2, pickles, pickles2);
 						} catch (FileNotFoundException e1) {
 							
 							e1.printStackTrace();
@@ -150,6 +171,11 @@ public class pictureTest extends Application{
 		};
 		
 		mainScene.addEventFilter(MouseEvent.MOUSE_CLICKED,  eventHandler);
+		
+		
+		
+		
+		
 				
 		newPlot(4, mainPane);
 		
@@ -201,7 +227,7 @@ public class pictureTest extends Application{
 		return pic;	
 	}	
 	
-public void newPlot(int num, Pane pane) throws FileNotFoundException {
+	public void newPlot(int num, Pane pane) throws FileNotFoundException {
 		
 		Image image1 = new Image(new FileInputStream("plot1.png"));
 		int x = 50;

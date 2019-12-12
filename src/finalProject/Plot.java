@@ -3,7 +3,6 @@ package finalProject;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -41,6 +40,7 @@ public class Plot  extends Equipment  {
 		System.out.println("Tried to plant");
 		
 		if (canPlant) {
+		
 			
 			canPlant = false;
 			
@@ -104,16 +104,19 @@ public class Plot  extends Equipment  {
 	
 	
 	
-	public void clicked() throws FileNotFoundException {
+	public void clicked(Counter one, Counter two, Counter three, Counter four) throws FileNotFoundException {
 	
 		
 		if (canPlant) {
 			plant();
-			
+			one.changeAmount(-10);
+			two.changeAmount(-10);
 		}
 		
 		else if(canHarvest) {
 			harvest();
+			three.changeAmount(100);
+			four.changeAmount(100);
 		}
 		
 	}

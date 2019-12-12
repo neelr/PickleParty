@@ -30,7 +30,7 @@ public class Jar extends Equipment {
 		this.imageView.setFitWidth(95);
 	}
 	
-	public void clicked(Arc arc) throws FileNotFoundException {
+	public void clicked(Arc arc, Counter cucumbers, Counter cucumbers2, Counter pickles, Counter pickles2) throws FileNotFoundException {
 		
 		System.out.println("Clicked");
 		
@@ -38,11 +38,15 @@ public class Jar extends Equipment {
 			Mechanics.pickle();
 			canPickle = false;
 			pickle(arc);
+			cucumbers.changeAmount(-100);
+			cucumbers2.changeAmount(-100);		
 		}
 		else if (canCollect) {
 			
 			canCollect = false;
 			collect();
+			pickles.changeAmount(100);
+			pickles2.changeAmount(100);
 		}
 	}
 	
@@ -71,7 +75,7 @@ public class Jar extends Equipment {
 				green += 3;
 			}
 			
-			arc.setFill(Color.rgb(red, green, 0, 0.8));
+			arc.setFill(Color.rgb(red, green, 0, 0.9));
 			arc.setLength(arc.getLength() - 1);
 			
 			if (count == 361) {

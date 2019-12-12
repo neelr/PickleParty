@@ -5,7 +5,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 public abstract class Equipment {
-
 	
 	Image image;
 	ImageView imageView;
@@ -66,8 +65,4 @@ public abstract class Equipment {
     		return false;
     	
     }
-	
-	
-	
-	
 }
